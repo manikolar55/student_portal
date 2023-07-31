@@ -1,5 +1,7 @@
 from django.db import models
 
+from app.utils import generate_random_int_with_max_length
+
 
 # Create your models here.
 
@@ -17,6 +19,18 @@ class Students(models.Model):
 
     class Meta:
         db_table = "student"
+
+    def save(
+        self, force_insert=False, force_update=False, using=None, update_fields=None
+    ):
+        while True:
+            student_id = generate_random_int_with_max_length()
+            try:
+                Students.objects.get(student_id=student_id)
+            except Students.DoesNotExist:
+                self.student_id = student_id
+                break
+        super(Students, self).save(force_insert, force_update, using, update_fields)
 
 
 class Subject(models.Model):
