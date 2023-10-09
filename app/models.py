@@ -70,7 +70,7 @@ class Degree(models.Model):
     semester = models.ForeignKey(Semester, on_delete=models.CASCADE, related_name="degree_semester")
 
     def __str__(self):
-        return f'<{self.name}> <{self.semester}>'
+        return f'{self.name} {self.semester}'
 
     class Meta:
         db_table = "degree"
@@ -81,7 +81,12 @@ class Profile(models.Model):
     degree = models.OneToOneField(Degree, on_delete=models.CASCADE, related_name="profile_degree")
 
     def __str__(self):
-        return f'<{self.student}> <{self.degree}>'
+        return f'{self.student} {self.degree}'
 
     class Meta:
         db_table = "profile"
+
+
+class Room(models.Model):
+    name = models.CharField(max_length=20, null=False, blank=False)
+    max_length = models.IntegerField(default=60)
